@@ -36,7 +36,7 @@ app.use("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const { status, message } = err;
+  const { status = 500, message = "Internal server error" } = err;
   res.status(status).json({ success: false, message });
 });
 

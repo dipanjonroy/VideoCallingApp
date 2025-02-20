@@ -14,7 +14,7 @@ const userSchema = new Schema({
     trim: true,
     required: true,
     unique: true,
-    minLength: [3, "Name must be at least 3 characters long."],
+    minLength: [3, "Username must be at least 3 characters long."],
   },
 
   email: {
@@ -29,7 +29,7 @@ const userSchema = new Schema({
     required: true,
     minLength: [6, "Password must be at least 6 characters long."],
     select: false,
-    set: (v) => bcrypt.hashSync(v, bcrypt(bcrypt.genSaltSync(10))),
+    set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
   },
 });
 
