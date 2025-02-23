@@ -56,7 +56,8 @@ module.exports.userLogin = async (req, res) => {
     maxAge: 1000 * 60 * 10,
     httpOnly: false,
     secure: true,
-    sameSite: "Strict",
+    sameSite: "Lax",
+    withCredentials: true,
   });
 
   res.status(201).json({
