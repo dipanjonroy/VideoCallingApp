@@ -1,8 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Alert from "../utils/alert";
+import { io } from "socket.io-client";
 
 const context = createContext();
+
+
 
 export const GeneralContext = ({ children }) => {
   //Alert
@@ -64,9 +67,13 @@ export const GeneralContext = ({ children }) => {
     }
   };
 
+
+  //socket
+  const socket = io("localhost:8000");
+
   return (
     <context.Provider
-      value={{ registerUser, closeAlert, loginUser, errorMessage }}
+      value={{ registerUser, closeAlert, loginUser, errorMessage, socket}}
     >
       <div className="container">{children}</div>
       {alert && <Alert message={alertMessage} />}
@@ -75,3 +82,5 @@ export const GeneralContext = ({ children }) => {
 };
 
 export default context;
+
+

@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-.container{
+.container {
   position: relative;
 }
 
@@ -203,8 +203,8 @@
   padding-inline: 2rem;
 }
 
-.buttons{
-  margin-bottom:2rem ;
+.buttons {
+  margin-bottom: 2rem;
   margin-top: 7%;
 }
 
@@ -218,7 +218,7 @@
 }
 
 .buttons .select {
-  background-color:#216061;
+  background-color: #216061;
   color: #fff;
 }
 
@@ -226,18 +226,177 @@
   margin-right: 1rem;
 }
 
-.formBox{
+.formBox {
   width: 100%;
 }
 
-.formBox .formInput{
+.formBox .formInput {
   width: 100%;
 }
 
-.formBtn{
+.formBtn {
   width: 100% !important;
   padding: 0.9rem 0 !important;
   background-color: #216061 !important;
 }
 
+.dashboard {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f2fafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rem 10rem;
+}
 
+.appOptions {
+  width: 50%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.option > div {
+  width: 125px;
+  height: 125px;
+  background-color: blue;
+  border-radius: 25%;
+  display: flex;
+}
+
+.option > div img {
+  width: 100%;
+  padding: 2rem;
+}
+
+.option p {
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.meetingSchedule {
+  width: 100%;
+  max-width: 400px;
+}
+.schedule {
+  height: 70vh;
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.clock {
+  width: 100%;
+  height: 200px;
+  background-image: url("../public/images/schedule.png");
+  background-size: cover;
+  border-radius: 30px 30px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.clock h2 {
+  font-size: 3rem;
+}
+
+.streamContainer {
+  width: 100%;
+  height: 100vh;
+}
+
+.meeting-videos {
+  width: 100%;
+  height: 90vh;
+  background-color: #202020;
+  display: flex;
+}
+
+.connectedUserStream {
+  width: 75%;
+  height: 100%;
+  display: grid;
+  gap: 10px;
+  padding: 1.5rem;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.connectedUserStream:has(:nth-child(1)) {
+  grid-template-columns: 1fr;
+}
+
+.connectedUserStream:has(:nth-child(2)) {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+.connectedUserStream:has(:nth-child(3)),
+.connectedUserStream:has(:nth-child(4)) {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.connectedUserStream:has(:nth-child(5)),
+.connectedUserStream:has(:nth-child(6)) {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+} 
+
+.single-video-item {
+  overflow: hidden;
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
+
+.single-video-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.meetingOwner {
+  width: 25%;
+  padding: 1.5rem;
+  background-color: rgb(221, 221, 221);
+}
+.ownerStrem {
+  
+  overflow: hidden;
+}
+.meetingOwner video {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.callerBtns {
+  background-color: #111111f8;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 5px 10px #00000085;
+}
+
+.btns-icons svg {
+  color: white;
+  font-size: 2rem;
+}

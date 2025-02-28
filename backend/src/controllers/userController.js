@@ -54,10 +54,9 @@ module.exports.userLogin = async (req, res) => {
 
   res.cookie("accessToken", accessToken, {
     maxAge: 1000 * 60 * 10,
-    httpOnly: false,
-    secure: true,
+    httpOnly: true,
+    secure: false,
     sameSite: "Lax",
-    withCredentials: true,
   });
 
   res.status(201).json({

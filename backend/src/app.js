@@ -15,17 +15,18 @@ const ExpressError = require("./utilities/ExpressError");
 connectToDB();
 
 const app = express();
-app.set("port", (process.env.PORT || 3000))
+app.set("port", process.env.PORT || 3000);
 
 const server = createServer(app);
 const io = connectToSocket(server);
 
-
-app.use(cors({
-  origin: ["http://localhost:5174"],
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-}));
+  })
+);
 app.use(cookieParser());
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
@@ -44,5 +45,5 @@ app.use((err, req, res, next) => {
 });
 
 server.listen(app.get("port"), () => {
-  console.log("App is running")
+  console.log("App is running");
 });
