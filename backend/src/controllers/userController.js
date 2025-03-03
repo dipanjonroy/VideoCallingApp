@@ -64,3 +64,33 @@ module.exports.userLogin = async (req, res) => {
     message: "Log in successfully.",
   });
 };
+
+//user profile
+module.exports.profile = async (req, res) => {
+  const userId = req.user;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ExpressError(401, "User is not existed");
+  }
+
+  const userData = {
+    name: user.name,
+    email: user.email,
+  };
+
+  res.status(209).json({
+    success: true,
+    message: userData,
+  });
+};
+
+module.exports.logOut = async(req,res)=>{
+  res.clearCookie("accessToken")
+
+   res.status(209).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+}

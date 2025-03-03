@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+a{
+  text-decoration: none;
+}
+
 .container {
   position: relative;
 }
@@ -244,10 +248,15 @@
   width: 100vw;
   height: 100vh;
   background-color: #f2fafa;
+  padding: 5rem 10rem;
+  position: relative;
+}
+
+.dashboard-items {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 5rem 10rem;
 }
 
 .appOptions {
@@ -256,6 +265,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .options {
@@ -319,6 +329,54 @@
   font-size: 3rem;
 }
 
+.meetingIdArea {
+  width: 50%;
+  min-width: 20rem;
+  height: 50%;
+  min-height: 15rem;
+  background-color: rgb(214, 214, 214);
+  padding: 2rem;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  top: 50%;
+  right: 50%;
+}
+
+.meeting {
+  margin-top: 2rem;
+}
+
+.meeting p {
+  margin-bottom: 0.5rem;
+}
+
+.meeting input {
+  width: 50%;
+  font-size: 0.8rem;
+  padding: 1rem 0.8rem;
+  border: 1px solid #8b8b8b;
+  border-radius: 25px;
+  color: #3f3f3f;
+}
+
+.cross-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.join-room-button {
+  background-color: #216061;
+  font-size: 1.5rem;
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border: none;
+  cursor: pointer;
+}
+
 .streamContainer {
   width: 100%;
   height: 100vh;
@@ -358,7 +416,7 @@
 .connectedUserStream:has(:nth-child(6)) {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr;
-} 
+}
 
 .single-video-item {
   overflow: hidden;
@@ -374,17 +432,23 @@
 
 .meetingOwner {
   width: 25%;
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
   background-color: rgb(221, 221, 221);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
 }
 .ownerStrem {
-  
-  overflow: hidden;
+  width: 100%;
+  height: 40%;
 }
 .meetingOwner video {
   width: 100%;
   height: 100%;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .callerBtns {
@@ -399,4 +463,193 @@
 .btns-icons svg {
   color: white;
   font-size: 2rem;
+}
+
+.chatContainer {
+  background-color: white;
+  width: 100%;
+  height: calc(100% - 30% - 20px);
+  position: relative;
+  background-color: #202020;
+  overflow: hidden;
+}
+
+.chat-heading {
+  background-color: #216061;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-heading h2 {
+  font-size: 1.3rem;
+}
+
+.chat-heading button {
+  background-color: red;
+  width: 0.2rem;
+  height: 0.2rem;
+  border-radius: 0;
+  padding: 0.6rem;
+  color: white;
+}
+.chat-heading button svg {
+  font-size: 1rem;
+}
+
+.chat-heading button:hover {
+  background-color: red;
+}
+
+.message-area {
+  padding: 0.8rem 1rem;
+  height: calc(100% - 7.4rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.message {
+  color: #fff;
+  max-width: 70%;
+}
+
+.message h5 {
+  font-size: 0.8rem;
+  margin-left: 1rem;
+  font-weight: 400;
+  color: #cecdcd;
+  text-transform: capitalize;
+}
+
+.message p {
+  padding: 0.5rem 1rem;
+  background-color: #3f3f3f;
+  border-radius: 50px;
+  margin-top: 0.2rem;
+  display: inline-block;
+  word-wrap: break-word;
+  font-size: 1rem;
+}
+
+.user-message {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.user-message h5 {
+  margin-right: 0.9rem;
+}
+
+.no-message {
+  color: #8b8b8b;
+  text-align: center;
+  align-self: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  width: 80%;
+}
+
+.chat-typing-box {
+  position: absolute;
+  height: 5rem;
+  width: 100%;
+  bottom: 0;
+  padding-inline: 1rem;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-typing-box form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-typing-box form input {
+  border: 1px solid #c4c3c3;
+  font-size: 1rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 25px;
+  width: 100%;
+}
+
+.chat-typing-box form button svg {
+  color: #ffffff;
+}
+
+
+.meetingRoom {
+  width: 100vw;
+  height: 100vh;
+}
+
+.meetingRoomNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+}
+
+.navigation {
+  text-align: right;
+  font-size: 1rem;
+  color: #3f3f3f;
+}
+
+.videoArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-inline: 10rem;
+  gap: 2rem;
+  height: calc(100% - 111px);
+  width: 100%;
+}
+
+.video {
+  align-self: center;
+  width: 50%;
+}
+
+.video video {
+  width: 100%;
+  min-width: 240px;
+  height: auto;
+  align-self: center;
+}
+
+.askJoin {
+  width: 50%;
+  text-align: center;
+}
+
+.askJoin h3 {
+  color: #202020;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.askJoin button {
+  background-color: #216061;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 0.6rem 1.9rem ;
+  border-radius: 5px;
+  cursor: pointer;
 }

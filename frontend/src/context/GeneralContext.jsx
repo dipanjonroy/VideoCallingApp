@@ -1,17 +1,16 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import Alert from "../utils/alert";
-import { io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+
 
 const context = createContext();
 
-
-
 export const GeneralContext = ({ children }) => {
-  //Alert
   const [alertMessage, setAlertMessage] = useState("");
   const [alert, setAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const closeAlert = () => {
     setAlert(false);
@@ -42,8 +41,7 @@ export const GeneralContext = ({ children }) => {
       const { success, message } = data;
       if (success) {
         showAlert(message);
-        setSelectForm(1)
-
+        setSelectForm(1);
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -55,7 +53,8 @@ export const GeneralContext = ({ children }) => {
     try {
       const { data } = await axios.post(
         "http://localhost:8000/api/users/login",
-        userCred, {withCredentials: true}
+        userCred,
+        { withCredentials: true }
       );
       const { success, message } = data;
 
@@ -67,13 +66,21 @@ export const GeneralContext = ({ children }) => {
     }
   };
 
+  //WebRTC - socket
+  const meetingIdRef = useRef(uuidv4());
 
-  //socket
-  const socket = io("localhost:8000");
+  const handleNavigateRoom = () => {
+    navigate(`/room/${meetingIdRef.current}`);
+  };
 
   return (
     <context.Provider
-      value={{ registerUser, closeAlert, loginUser, errorMessage, socket}}
+      value={{
+        registerUser,
+        loginUser,
+
+        handleNavigateRoom,
+      }}
     >
       <div className="container">{children}</div>
       {alert && <Alert message={alertMessage} />}
@@ -82,5 +89,3 @@ export const GeneralContext = ({ children }) => {
 };
 
 export default context;
-
-

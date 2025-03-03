@@ -4,15 +4,18 @@ import Button from "@mui/material/Button";
 import { useContext, useRef, useState } from "react";
 import axios from "axios";
 import context from "../context/GeneralContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [selectForm, setSelectForm] = useState(0);
-  const { registerUser, loginUser, errorMessage} = useContext(context);
+  const { registerUser, loginUser, errorMessage } = useContext(context);
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate()
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -34,6 +37,8 @@ function Login() {
       password: password,
     };
     loginUser(loginCredentials);
+
+    navigate("/dashboard")
 
     console.log(loginCredentials);
   };
@@ -67,13 +72,13 @@ function Login() {
           >
             {selectForm === 0 ? (
               <TextField
+                required
                 id="fullname"
                 label="Fullname"
                 variant="outlined"
                 type="text"
                 className="formInput"
                 onChange={(e) => setFullname(e.target.value)}
-                required
               />
             ) : null}
 
@@ -108,7 +113,7 @@ function Login() {
               required
             />
 
-            <p style={{color: "red"}}>{errorMessage}</p>
+            <p style={{ color: "red" }}>{errorMessage}</p>
             <Button variant="contained" className="formBtn" type="submit">
               {selectForm === 0 ? "Sign up" : "Log in"}
             </Button>
