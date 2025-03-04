@@ -7,15 +7,15 @@ import context from "../context/GeneralContext";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [selectForm, setSelectForm] = useState(0);
-  const { registerUser, loginUser, errorMessage } = useContext(context);
+  const [selectForm, setSelectForm] = useState(1);
+  const { registerUser, loginUser } = useContext(context);
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -38,9 +38,12 @@ function Login() {
     };
     loginUser(loginCredentials);
 
-    navigate("/dashboard")
+    setTimeout(() => {
+      navigate("/dashboard");
+      
+    }, 1000);
 
-    console.log(loginCredentials);
+    
   };
 
   return (
@@ -113,7 +116,6 @@ function Login() {
               required
             />
 
-            <p style={{ color: "red" }}>{errorMessage}</p>
             <Button variant="contained" className="formBtn" type="submit">
               {selectForm === 0 ? "Sign up" : "Log in"}
             </Button>

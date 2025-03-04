@@ -2,33 +2,18 @@ import { createContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-
+import { ToastContainer, toast } from "react-toastify";
 
 const context = createContext();
 
 export const GeneralContext = ({ children }) => {
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alert, setAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const closeAlert = () => {
-    setAlert(false);
+  const handleSuccessMessage = (success) => {
+    toast.success(success, { position: "bottom-right" });
   };
-
-  useEffect(() => {
-    if (alert) {
-      setTimeout(() => {
-        setAlert(false);
-      }, 2000);
-    }
-    return () => clearTimeout();
-  }, [alert]);
-
-  //Handle success message
-  const showAlert = (message) => {
-    setAlertMessage(message);
-    setAlert(true);
+  const handleErrorMessage = (err) => {
+    toast.error(err, { position: "bottom-left" });
   };
 
   //user register
@@ -40,11 +25,11 @@ export const GeneralContext = ({ children }) => {
       );
       const { success, message } = data;
       if (success) {
-        showAlert(message);
+        handleSuccessMessage(message);
         setSelectForm(1);
       }
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      handleErrorMessage(error.response.data.message);
     }
   };
 
@@ -59,12 +44,50 @@ export const GeneralContext = ({ children }) => {
       const { success, message } = data;
 
       if (success) {
-        showAlert(message);
+        handleSuccessMessage(message);
       }
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      handleErrorMessage(error.response.data.message);
     }
   };
+
+  //User Profile
+  const [userData, setUserData] = useState();
+
+  const userProfile = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8000/api/users/profile",
+        { withCredentials: true }
+      );
+
+      const { success, user } = data;
+
+      if (success) {
+        setUserData(user.name);
+      }
+
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //logout 
+
+  const logOut = async()=>{
+    try {
+      const {data} = await axios.get("http://localhost:8000/api/users/logout", {withCredentials: true});
+      const{success, message} = data;
+
+      if(success){
+        handleSuccessMessage(message)
+      }
+    } catch (error) {
+      handleErrorMessage(error.response.data.message)
+    }
+  }
+
 
   //WebRTC - socket
   const meetingIdRef = useRef(uuidv4());
@@ -78,12 +101,14 @@ export const GeneralContext = ({ children }) => {
       value={{
         registerUser,
         loginUser,
-
+        logOut,
         handleNavigateRoom,
+        userProfile,
+        userData,
       }}
     >
       <div className="container">{children}</div>
-      {alert && <Alert message={alertMessage} />}
+      <ToastContainer />
     </context.Provider>
   );
 };

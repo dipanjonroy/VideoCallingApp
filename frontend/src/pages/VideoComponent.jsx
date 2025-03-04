@@ -12,7 +12,7 @@ import Badge from "@mui/material/Badge";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
 import context from "../context/GeneralContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import Header from "./Header";
 import io from "socket.io-client";
 
 const server_url = "localhost:8000";
@@ -22,6 +22,10 @@ let connections = {};
 const peerConfigConnection = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
+
+const getFirstWord = (name)=>{
+  return name.split(" ")[0]
+}
 
 function VideoComponent() {
   const [isAccess, setIsAccess] = useState(true);
@@ -44,11 +48,13 @@ function VideoComponent() {
   const [screen, setScreen] = useState();
 
   const [message, setMessage] = useState();
-  const [messages, setMessages] = useState();
+  const [messages, setMessages] = useState([]);
   const [newMessages, setNewMessages] = useState(0);
   const [username, setUsername] = useState("");
 
   const [videos, setVideos] = useState([]);
+
+  const {userData} = useContext(context)
 
   const getPermissions = async () => {
     try {
@@ -112,7 +118,7 @@ function VideoComponent() {
     return Object.assign(dst.stream.getAudioTracks()[0], { enabled: false });
   };
 
-  let black = () => {
+  let black = ({width = 680, height = 480}) => {
     let canvas = Object.assign(document.createElement("canvas"), {
       width,
       height,
@@ -285,8 +291,6 @@ function VideoComponent() {
   const gotMessageFromServer = (fromId, message) => {
     let signal = JSON.parse(message);
 
-    console.log(signal);
-
     if (fromId !== socketIdRef.current) {
       if (signal.sdp) {
         connections[fromId]
@@ -323,7 +327,13 @@ function VideoComponent() {
     }
   };
 
-  const addmessage = () => {};
+  const addmessage = (data, sender, socketIdSender) => {
+    setMessages((prevMessages)=> [...prevMessages, {sender:sender, data:data}])
+
+    if (socketIdSender !== socketIdRef.current) {
+      setNewMessages((prevNewMessages) => prevNewMessages + 1);
+  }
+  };
 
   const connectToSocketServer = () => {
     socketRef.current = io.connect(server_url, { secure: false });
@@ -345,8 +355,6 @@ function VideoComponent() {
           connections[socketListId] = new RTCPeerConnection(
             peerConfigConnection
           );
-
-          console.log(connections[socketListId]);
 
           connections[socketListId].onicecandidate = (event) => {
             if (event.candidate !== null) {
@@ -454,22 +462,21 @@ function VideoComponent() {
     setScreen(true);
   };
 
+  const handleChatWindow = ()=>{
+    setShowModel(!showModel)
+  }
+
+  const handleSendMessage = (e)=>{
+    e.preventDefault()
+    socketRef.current.emit('chat-message', message, userData)
+    setMessage("")
+  }
+
   return (
     <div>
       {isAccess ? (
         <div className="meetingRoom">
-          <div className="meetingRoomNav">
-            <div className="hompageBrand">
-              <h2>
-                <span>Video</span> App
-              </h2>
-            </div>
-
-            <div className="navigation">
-              <span>Username</span>
-            </div>
-          </div>
-
+          <Header/>
           <div className="videoArea">
             <div className="video">
               <video ref={localVideoRef} muted autoPlay></video>
@@ -496,7 +503,6 @@ function VideoComponent() {
                     autoPlay
                     muted
                   ></video>
-                  {console.log(video)}
                 </div>
               ))}
             </div>
@@ -530,12 +536,12 @@ function VideoComponent() {
                           return (
                             <div
                               className={
-                                message.sender === username
+                                message.sender === userData
                                   ? "message user-message"
                                   : "message"
                               }
                             >
-                              <h5>{message.sender}</h5>
+                              <h5>{getFirstWord(message.sender)}</h5>
                               <p>{message.data}</p>
                             </div>
                           );
@@ -556,7 +562,7 @@ function VideoComponent() {
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                       />
-                      <IconButton>
+                      <IconButton type="submit">
                         <SendIcon />
                       </IconButton>
                     </form>
@@ -580,7 +586,7 @@ function VideoComponent() {
                 {!screen ? <StopScreenShareIcon /> : <ScreenShareIcon />}
               </IconButton>
               <Badge badgeContent={newMessages} color="primary">
-                <IconButton>
+                <IconButton onClick={handleChatWindow}>
                   <ChatIcon />
                 </IconButton>
               </Badge>

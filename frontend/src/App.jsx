@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import { GeneralContext } from "./context/GeneralContext";
 import Dashboard from "./pages/Dashboard";
 import VideoComponent from "./pages/VideoComponent";
+import { UserProtectWrapper, AuthGuard } from "./context/AuthGuard";
+
 
 function App() {
   return (
@@ -12,9 +14,30 @@ function App() {
         <GeneralContext>
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/auth" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard/>}/>
-            <Route path="/room/:roomno" element={<VideoComponent/>}/>
+            <Route
+              path="/auth"
+              element={
+                <AuthGuard>
+                  <Login />
+                </AuthGuard>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <UserProtectWrapper>
+                  <Dashboard />
+                </UserProtectWrapper>
+              }
+            />
+            <Route
+              path="/room/:roomno"
+              element={
+                <UserProtectWrapper>
+                  <VideoComponent />
+                </UserProtectWrapper>
+              }
+            />
           </Routes>
         </GeneralContext>
       </BrowserRouter>

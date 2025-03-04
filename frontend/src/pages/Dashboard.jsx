@@ -1,43 +1,17 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
+import { useContext} from "react";
+import Header from "./Header";
+import Clock from "./Clock";
 
-import { Link, useNavigate } from "react-router-dom";
 import context from "../context/GeneralContext";
 
 function Dashboard() {
-  const [clock, setClock] = useState(new Date().toLocaleTimeString());
-
-  const { connect, handleNavigateRoom } = useContext(context);
-
-
-
- 
-
-  useEffect(() => {
-    setInterval(() => {
-      setClock(new Date().toLocaleTimeString());
-    }, 1000);
-
-    return () => clearInterval();
-  }, [clock]);
+  const { handleNavigateRoom} = useContext(context);
 
   
 
-  // const copyMeetingURL = async (e) => {
-  //   try {
-  //     await navigator.clipboard.writeText(e.target.value);
-  //     setCopied(true);
-  //     setTimeout(() => {
-  //       setCopied(false);
-  //     }, 3000);
-  //     console.log("copied");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <div className="dashboard">
+      <Header />
       <div className="dashboard-items">
         <div className="appOptions">
           <div className="options">
@@ -59,9 +33,8 @@ function Dashboard() {
         <div className="meetingSchedule">
           <div className="schedule">
             <div className="clock">
-              <h2>{clock}</h2>
+              <Clock/>
             </div>
-            <div className="scheduleBody"></div>
           </div>
         </div>
       </div>

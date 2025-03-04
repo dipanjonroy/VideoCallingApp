@@ -54,7 +54,7 @@ module.exports.userLogin = async (req, res) => {
 
   res.cookie("accessToken", accessToken, {
     maxAge: 1000 * 60 * 10,
-    httpOnly: true,
+    httpOnly: false,
     secure: false,
     sameSite: "Lax",
   });
@@ -82,7 +82,7 @@ module.exports.profile = async (req, res) => {
 
   res.status(209).json({
     success: true,
-    message: userData,
+    user: userData,
   });
 };
 
